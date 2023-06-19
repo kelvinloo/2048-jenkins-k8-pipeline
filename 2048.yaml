@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game2048
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: game2048
+  template:
+    metadata:
+      labels:
+        run: game2048
+    spec:
+      containers:
+      - name: game2048
+        image: kelvinlctd/2048game:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game2048
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    run: game2048
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30001
